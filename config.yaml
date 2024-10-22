@@ -1,305 +1,130 @@
-general:
-  # Commands to run when the WM has started. This is useful for running a
-  # script or launching another application.
-  # Example: The below command launches Zebar.
-  startup_commands: ['shell-exec zebar']
-
-  # Commands to run just before the WM is shutdown.
-  # Example: The below command kills Zebar.
-  shutdown_commands: ['shell-exec taskkill /IM zebar.exe /F']
-
-  # Commands to run after the WM config is reloaded.
-  config_reload_commands: []
-
-  # Whether to automatically focus windows underneath the cursor.
-  focus_follows_cursor: false
-
-  # Whether to switch back and forth between the previously focused
-  # workspace when focusing the current workspace.
-  toggle_workspace_on_refocus: false
-
-  cursor_jump:
-    # Whether to automatically move the cursor on the specified trigger.
+watch_stylesheet: true
+watch_config: true
+debug: false
+komorebi:
+  start_command: "komorebic start --whkd"
+  stop_command: "komorebic stop --whkd"
+  reload_command: "komorebic stop --whkd && komorebic start --whkd"
+bars:
+  primary-bar:
     enabled: true
-
-    # Trigger for cursor jump:
-    # - 'monitor_focus': Jump when focus changes between monitors.
-    # - 'window_focus': Jump when focus changes between windows.
-    trigger: 'window_focus'
-
-gaps:
-  # Whether to scale the gaps with the DPI of the monitor.
-  scale_with_dpi: true
-
-  # Gap between adjacent windows.
-  inner_gap: '2px'
-
-  # Gap between windows and the screen edge.
-  outer_gap:
-    top: '41px'
-    right: '2px'
-    bottom: '2px'
-    left: '2px'
-
-window_effects:
-  # Visual effects to apply to the focused window.
-  focused_window:
-    # Highlight the window with a colored border.
-    # ** Exclusive to Windows 11 due to API limitations.
-    border:
-      enabled: true
-      color: '#ffffff'
-
-    # Remove the title bar from the window's frame. Note that this can
-    # cause rendering issues for some applications.
-    hide_title_bar:
+    screens: ['*'] 
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+      center: false
+    blur_effect:
       enabled: false
-
-    # Change the corner style of the window's frame.
-    # ** Exclusive to Windows 11 due to API limitations.
-    corner_style:
-      enabled: false
-      # Allowed values: 'square', 'rounded', 'small_rounded'.
-      style: 'rounded'
-
-  # Visual effects to apply to non-focused windows.
-  other_windows:
-    border:
-      enabled: true
-      color: '#a1a1a1'
-    hide_title_bar:
-      enabled: false
-    corner_style:
-      enabled: false
-      style: 'square'
-
-window_behavior:
-  # New windows are created in this state whenever possible.
-  # Allowed values: 'tiling', 'floating'.
-  initial_state: 'tiling'
-
-  # Sets the default options for when a new window is created. This also
-  # changes the defaults for when the state change commands, like
-  # `set-floating`, are used without any flags.
-  state_defaults:
-    floating:
-      # Whether to center floating windows by default.
-      centered: true
-
-      # Whether to show floating windows as always on top.
-      shown_on_top: false
-
-    fullscreen:
-      # Maximize the window if possible. If the window doesn't have a
-      # maximize button, then it'll be fullscreen'ed normally instead.
-      maximized: false
-
-      # Whether to show fullscreen windows as always on top.
-      shown_on_top: false
-
-workspaces:
-  - name: '1'
-  - name: '2'
-  - name: '3'
-  - name: '4'
-  - name: '5'
-  - name: '6'
-  - name: '7'
-  - name: '8'
-  - name: '9'
-
-window_rules:
-
-  - commands: ['ignore']
-    match:
-      # Ignores any Zebar windows.
-      - window_process: { equals: 'zebar' }
-
-      # Ignores picture-in-picture windows for browsers.
-      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
-        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
-
-      # Ignore rules for various 3rd-party apps.
-      - window_process: { equals: 'PowerToys' }
-        window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
-      - window_process: { equals: 'PowerToys' }
-        window_title: { regex: '.*? - Peek' }
-      - window_process: { equals: 'Lively' }
-        window_class: { regex: 'HwndWrapper' }
-      - window_process: { equals: "FlowLauncher" }
-        window_class: { equals: "Settings" }
-
-binding_modes:
-  # When enabled, the focused window can be resized via WASD.
-  - name: 'resize'
-    keybindings:
-      - commands: ['resize --width -2%']
-        bindings: ['a', 'left']
-      - commands: ['resize --width +2%']
-        bindings: ['d', 'right']
-      - commands: ['resize --height +2%']
-        bindings: ['w', 'up']
-      - commands: ['resize --height -2%']
-        bindings: ['s', 'down']
-      # Press enter/escape to return to default keybindings.
-      - commands: ['wm-disable-binding-mode --name resize']
-        bindings: ['escape', 'enter']
-
-  # When enabled, all keybindings are disabled except for alt+shift+p which
-  # returns to default keybindings.
-  - name: 'pause'
-    keybindings:
-      - commands: ['wm-disable-binding-mode --name pause']
-        bindings: ['alt+shift+p']
-
-keybindings:
-  # Shift focus in a given direction.
-  - commands: ['focus --direction left']
-    bindings: ['lwin+h']
-  - commands: ['focus --direction right']
-    bindings: ['lwin+;']
-  - commands: ['focus --direction up']
-    bindings: ['lwin+k']
-  - commands: ['focus --direction down']
-    bindings: ['lwin+j']
-
-  # Move focused window in a given direction.
-  - commands: ['move --direction left']
-    bindings: ['lwin+shift+h']
-  - commands: ['move --direction right']
-    bindings: ['lwin+shift+;']
-  - commands: ['move --direction up']
-    bindings: ['lwin+shift+k']
-  - commands: ['move --direction down']
-    bindings: ['lwin+shift+j']
-
-  # Resize focused window by a percentage or pixel amount.
-  # - commands: ['resize --width -2%']
-  #   bindings: ['alt+u']
-  # - commands: ['resize --width +2%']
-  #   bindings: ['alt+p']
-  # - commands: ['resize --height +2%']
-  #   bindings: ['alt+o']
-  # - commands: ['resize --height -2%']
-  #   bindings: ['alt+i']
-
-  # As an alternative to the resize keybindings above, resize mode enables
-  # resizing via wasd. The binding mode is defined above with
-  # the name 'resize'.
-  - commands: ['wm-enable-binding-mode --name resize']
-    bindings: ['lwin+shift+r']
-
-  # Disables all keybindings until alt+shift+p is pressed again.
-  - commands: ['wm-enable-binding-mode --name pause']
-    bindings: ['alt+shift+p']
-
-  # Change tiling direction. This determines where new tiling windows will
-  # be inserted.
-  - commands: ['toggle-tiling-direction']
-    bindings: ['alt+v']
-
-  # Change focus from tiling windows -> floating -> fullscreen.
-  - commands: ['wm-cycle-focus']
-    bindings: ['lwin+shift+g']
-
-  # Change the focused window to be floating.
-  - commands: ['toggle-floating --centered']
-    bindings: ['lwin+f']
-
-  # Change the focused window to be tiling.
-  - commands: ['toggle-tiling']
-    bindings: ['lwin+t']
-
-  # Change the focused window to be fullscreen.
-  - commands: ['toggle-fullscreen']
-    bindings: ['lwin+shift+f']
-
-  # Minimize focused window.
-  - commands: ['toggle-minimized']
-    bindings: ['alt+m']
-
-  # Close focused window.
-  - commands: ['close']
-    bindings: ['lwin+q']
-
-  # Kill GlazeWM process safely.
-  - commands: ['wm-exit']
-    bindings: ['alt+shift+e']
-
-  # Re-evaluate configuration file.
-  - commands: ['wm-reload-config']
-    bindings: ['lwin+shift+q']
-
-  # Redraw all windows.
-  - commands: ['wm-redraw']
-    bindings: ['alt+shift+w']
-
-  # Focus the next/previous workspace defined in `workspaces` config.
-  - commands: ['focus --next-workspace']
-    bindings: ['lwin+ctrl+right']
-  - commands: ['focus --prev-workspace']
-    bindings: ['lwin+ctrl+left']
-
-  # Focus the workspace that last had focus.
-  - commands: ['focus --recent-workspace']
-    bindings: ['lwin+z']
-
-  # Change focus to a workspace defined in `workspaces` config.
-  - commands: ['focus --workspace 1']
-    bindings: ['lwin+1']
-  - commands: ['focus --workspace 2']
-    bindings: ['lwin+2']
-  - commands: ['focus --workspace 3']
-    bindings: ['lwin+3']
-  - commands: ['focus --workspace 4']
-    bindings: ['lwin+4']
-  - commands: ['focus --workspace 5']
-    bindings: ['lwin+5']
-  - commands: ['focus --workspace 6']
-    bindings: ['lwin+6']
-  - commands: ['focus --workspace 7']
-    bindings: ['lwin+7']
-  - commands: ['focus --workspace 8']
-    bindings: ['lwin+8']
-  - commands: ['focus --workspace 9']
-    bindings: ['lwin+9']
-
-  # Move the focused window's parent workspace to a monitor in a given
-  # direction.
-  - commands: ['move-workspace --direction left']
-    bindings: ['lwin+ctrl+shift+a']
-  - commands: ['move-workspace --direction right']
-    bindings: ['lwin+ctrl+shift+d']
-  - commands: ['move-workspace --direction up']
-    bindings: ['lwin+ctrl+shift+w']
-  - commands: ['move-workspace --direction down']
-    bindings: ['lwin+ctrl+shift+s']
-
-  # Move focused window to a workspace defined in `workspaces` config.
-  - commands: ['move --workspace 1', 'focus --workspace 1']
-    bindings: ['lwin+shift+1']
-  - commands: ['move --workspace 2', 'focus --workspace 2']
-    bindings: ['lwin+shift+2']
-  - commands: ['move --workspace 3', 'focus --workspace 3']
-    bindings: ['lwin+shift+3']
-  - commands: ['move --workspace 4', 'focus --workspace 4']
-    bindings: ['lwin+shift+4']
-  - commands: ['move --workspace 5', 'focus --workspace 5']
-    bindings: ['lwin+shift+5']
-  - commands: ['move --workspace 6', 'focus --workspace 6']
-    bindings: ['lwin+shift+6']
-  - commands: ['move --workspace 7', 'focus --workspace 7']
-    bindings: ['lwin+shift+7']
-  - commands: ['move --workspace 8', 'focus --workspace 8']
-    bindings: ['lwin+shift+8']
-  - commands: ['move --workspace 9', 'focus --workspace 9']
-    bindings: ['lwin+shift+9']
-  
-  # Launch CMD terminal. Alternatively, use `shell-exec --command wt` or
-  # `shell-exec --command %ProgramFiles%/Git/git-bash.exe` to start Windows
-  # Terminal and Git Bash respectively.
-  # - commands: ['shell-exec --command wt']
-    # bindings: ['lwin+enter']
-  # Custom Apps
-  # - commands: ['shell-exec wezterm-gui']
-  #   bindings: ['lwin+ent
+      acrylic: false
+      dark_mode: false
+      round_corners: false
+      border_color: None
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: "100%"
+      height: 28
+    padding:
+      top: 2
+      left: 2
+      bottom: 2
+      right: 2
+    widgets:
+      left:
+        [ 
+          "app_button",
+          "apps",
+        ]
+      center: [
+        "komorebi_workspaces"
+      ]
+      right:
+        [
+          "traffic",
+          "weather",
+          "clock",
+          "power_menu"
+        ]
+widgets:
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "{%H:%M}"
+      label_alt: "{%A, %d %B %Y %H:%M}"
+      timezones: []
+  komorebi_workspaces:
+    type: "komorebi.workspaces.WorkspaceWidget"
+    options:
+        label_offline: "\u26a1 Offline"
+        label_workspace_btn: "{index}"
+        label_workspace_active_btn: "{index}"
+        label_workspace_populated_btn: "{index}"
+        label_default_name: "{index}"
+        label_zero_index: false
+        hide_empty_workspaces: false
+        hide_if_offline: false
+        animation: true
+  weather:
+    type: "yasb.weather.WeatherWidget"
+    options:
+      label: "<span>{icon}</span> {temp_c}"
+      label_alt: "{location}: Min {min_temp_c}, Max {max_temp_c}, Humidity {humidity}"
+      api_key: '3bf4cf9a7c3f40d6b31174128242807'
+      update_interval: 600
+      hide_decimal: true
+      location: 'London'
+      callbacks:
+        on_left: "toggle_label"
+      icons: 
+        sunnyDay: "\udb81\udd99"
+        clearNight: "\udb81\udd94"
+        cloudyDay: "\uebaa"
+        cloudyNight: "\uebaa"
+        rainyDay: "\udb81\udd96"
+        rainyNight: "\udb81\udd96"
+        snowyIcyDay: "\udb81\udd92"
+        snowyIcyNight: "\udb81\udd92"
+        blizzard: "\udb81\udd93"
+        default: "\uebaa"
+  power_menu:
+      type: "yasb.power_menu.PowerMenuWidget"
+      options:
+        label: "\uf011"
+        uptime: True
+        blur: False
+        blur_background: True
+        animation_duration: 250 # Milisecond 
+        button_row: 5 # Number of buttons in row, min 1 max 5
+        buttons:
+          signout: ["\udb80\udf43","Sign out"]
+          shutdown: ["\uf011","Shut Down"]
+          restart: ["\uead2","Restart"]
+          hibernate: ["\uf28e","Hibernate"]
+          cancel: ["\udb81\udf3a","Cancel"]
+  traffic:
+      type: "yasb.traffic.TrafficWidget"
+      options:
+        label: "<span>\udb86\uddb3</span>{download_speed}<span class=\"tr_sep\">\ue621</span><span>\udb86\uddb2</span>{upload_speed}"
+        label_alt: "Download {download_speed} \ue621 Upload {upload_speed}"
+        update_interval: 1000 # Update interval should be a multiple of 1000
+        callbacks:
+          on_left: "toggle_label"
+          on_right: "exec cmd /c Taskmgr"
+  apps:
+    type: "yasb.applications.ApplicationsWidget"
+    options:
+      label: "{data}"
+      app_list:
+        - {icon: "File", launch: "explorer"}
+        - {icon: "Code", launch: "code"}
+        - {icon: "Terminal", launch: "wt"}
+        - {icon: "Notepad", launch: "notepad"}
+  app_button:
+      type: "yasb.custom.CustomWidget"
+      options:
+        label: "<span>\uf40e</span>"
+        label_alt: "<span>\uf40e</span>"
+        class_name: "app-button"
+        callbacks:
+          on_left: "exec start_menu"

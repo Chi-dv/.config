@@ -1,117 +1,143 @@
-/**
- * Import the Nerdfonts icon font.
- * Ref https://www.nerdfonts.com/cheat-sheet for a cheatsheet of available Nerdfonts icons.
- */
-@import 'https://www.nerdfonts.com/assets/css/webfont.css';
-
-i {
-  color: rgb(225 225 225 / 90%);
-  margin-right: 7px;
+* {
+   font-size: 12px;
+   color: #e0e3ee;
+   font-weight: 600;
+   font-family: "Segoe UI", "JetBrainsMono NFP";
+   margin: 0;
+   padding: 0;
+}
+.yasb-bar {
+   padding: 0 8px;
+   margin: 0;
+   background-color: rgb(0, 0, 0);
+   border-radius: 8px;
+   border: 1px solid rgb(45, 54, 68);
+}
+.widget {
+   padding: 0 8px;
+   margin: 0;
+}
+.widget .label {
+   padding: 0px 2px 1px 0;
+}
+.widget .label.alt {
+   padding: 0px 8px;
+}
+.komorebi-workspaces .offline-status {
+   color: #ffffff;
+   font-size: 12px;
+   padding: 0 4px;
+   font-weight: 600;
+}
+.komorebi-workspaces .ws-btn {
+   font-size: 14px;
+   border: none;
+   color: #6c7086;
+  margin: 0 1px 0 1px;
+   height: 30px;
+   padding: 0 12px;
+   border-bottom: 1px solid #ffffff;
+}
+.komorebi-workspaces .ws-btn:hover {
+   color: rgba(0, 0, 0, 0);
+   background-color: rgb(139, 143, 156);
+}
+.komorebi-workspaces .ws-btn.populated {
+color: #ffffff;
 }
 
-body {
-  color: rgb(225 225 225 / 90%);
-  font-family: 'JetBrainsMono Nerd Font';
-  font-size: 12px;
-  overflow: hidden;
+.komorebi-workspaces .ws-btn.active {
+   color: #ffffff;
+   font-weight: 900;
+   width: 30px;
+   border-bottom-color: #ffffff;
 }
-
-html,
-body,
-#root {
-  height: 100%;
-  border-radius: 8px;
-  padding: 2px 2px 1px 1px;
+.apps-widget .label {
+   font-size: 12px;
+   font-weight: 700;
 }
-
-#root {
-  border-bottom: 1px solid rgb(255 255 255 / 5%);
-  background:  rgba(0 0 0  / 90%);
+.apps-widget .label:hover {
+   color: #ffffff;
+   background-color: rgba(191, 202, 219, 0.07);
 }
-
-.app {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  height: 100%;
-  padding: 4px 1.5vw;
+.uptime {
+   font-size: 14px;
+   margin-bottom: 10px;
+   color: rgba(191, 202, 219, 0.726);
+   font-weight: 600;
 }
-
-.left,
-.center,
-.right {
-  display: flex;
-  align-items: center;
+.power-menu-widget .label {
+   font-size: 13px;
 }
+.power-menu-popup {
+   background-color: rgba(24, 24, 37, 0);
+   border-radius: 12px;
 
-.center {
-  justify-self: center;
 }
-
-.right {
-  justify-self: end;
+.power-menu-popup .button {
+   padding: 0;
+   width: 180px;
+   height: 230px;
+   border-radius: 8px;
+   background-color: rgba(41, 42, 58, 0.5);
+   color: white;
+   border-left: 4px solid rgba(58, 59, 83, 0);
+   border-right: 4px solid rgba(58, 59, 83, 0);
+   border-top: 8px solid rgba(58, 59, 83, 0);
+   border-bottom: 8px solid rgba(58, 59, 83, 0);
+   margin: 0px;
 }
-
-.logo,
-.binding-mode,
-.tiling-direction,
-.network,
-.memory,
-.cpu,
-.battery {
-  margin-right: 20px;
+.power-menu-popup .button.hover {
+   background-color: rgb(41, 42, 58);
+   border-left: 4px solid rgb(41, 42, 58);
+   border-right: 4px solid rgb(41, 42, 58);
+   border-top: 8px solid rgb(41, 42, 58);
+   border-bottom: 8px solid rgb(41, 42, 58);
 }
+.power-menu-popup .button .label {
+   margin-bottom: 8px;
+   font-size: 16px;
+   font-weight: 500;
+   color: rgba(255, 255, 255, 0.5);
 
-.workspaces {
-  display: flex;
-  align-items: center;
 }
-
-.workspace {
-  background: rgb(0 0 0 / 5%);
-  margin-right: 4px;
-  padding: 4px 8px;
-  color: rgb(225 225 225 / 90%);
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-
-  &.displayed {
-    background: rgb(255 255 255 / 15%);
-  }
-
-  &.focused,
-  &:hover {
-    background: rgb(0 0 0 / 50%);
-  }
+.power-menu-popup .button .icon {
+   font-size: 64px;
+   padding-top: 32px;
+   color: rgba(255, 255, 255, 0.25);
 }
-
-.binding-mode,
-.tiling-direction {
-  background: rgb(255 255 255 / 15%);
-  color:rgb(225 225 225 / 90%);
-  border-radius: 2px;
-  line-height: 1;
-  padding: 4px 8px;
-  border: 0;
-  cursor: pointer;
+.power-menu-popup .button.cancel .icon {
+   color: rgba(243, 139, 168, 0.3);
 }
-
-.binding-mode {
-  margin-right: 4px;
+.power-menu-popup .button.cancel .label {
+   color: rgba(243, 139, 168, 0.95);
 }
-
-.cpu .high-usage {
-  color: #900029;
+.icon {
+   font-size: 16px;
 }
-
-.battery {
-  position: relative;
+.weather-widget {
+   padding: 0 6px;
 }
-
-.battery .charging-icon {
-  position: absolute;
-  font-size: 7px;
-  left: -8px;
-  top: 3px;
+.weather-widget .icon {
+   font-size: 16px;
+   margin: 0 2px 0px 0;
+}
+.weather-widget .icon.sunnyDay {
+   color: rgb(221, 210, 107);
+}
+.weather-widget .icon.clearNight {
+   color: rgb(107, 189, 221);
+   font-size: 16px;
+   margin: 0px 2px 1px 0;
+}
+.weather-widget .icon.cloudyNight {
+   color: rgb(107, 189, 221);
+   font-size: 18px;
+   margin: 0px 2px 1px 0;
+}
+.weather-widget .icon.cloudyDay {
+   color: rgb(129, 173, 248);
+}
+.traffic-widget .tr_sep {
+   margin: 0 6px;
 }
